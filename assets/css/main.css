@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@source "../node_modules/flowbite-datepicker";
+
+button:hover {
+  cursor: pointer;
+}
+button:hover.cursor-not-allowed {
+  cursor: no-drop;
+}
+
+header {
+  padding-left: 250px;
+}
+
+header,
+header .content,
+header .mobile_header,
+.sidebar .logo_and_user_profile_container {
+  height: 100px;
+}
+
+header .mobile_header {
+  padding: 25px;
+}
+
+main,
+footer {
+  margin-left: 250px;
+  width: calc(100% - 250px);
+}
+
+header .header {
+  height: 100px;
+  padding: 25px 50px;
+  width: calc(100% - 250px);
+}
+
+main {
+  min-height: 80vh;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+footer {
+  padding: 10px 50px;
+}
+
+.user_greeting {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.breadcrumb {
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.nav_user_profile_box {
+  background-color: #275915;
+}
+
+.nav_user_profile_box {
+  width: 26px;
+  height: 26px;
+  padding: 6px;
+
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+input[type="number"].as_text::-webkit-inner-spin-button,
+input[type="number"].as_text::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  /* -webkit-appearance: textfield; */
+}
+
+/* For Firefox */
+input[type="number"].as_text {
+  -moz-appearance: textfield;
+}
+
+@media (max-width: 912px) {
+  header,
+  header .content,
+  header .mobile_header,
+  .sidebar .logo_and_user_profile_container {
+    height: unset !important;
+  }
+
+  .sidebar .logo_and_user_profile_container {
+    padding: 25px;
+  }
+
+  .sidebar .logo_and_user_profile_container .nav_user_profile {
+    column-gap: 16px;
+  }
+
+  .header_help_box {
+    background-color: #ffffff;
+  }
+
+  .sidebar_nav_wrapper {
+    padding-bottom: 25px;
+  }
+
+  .sidebar .sidebar_nav_navlink_wrapper {
+    padding: 20px 25px;
+  }
+
+  main,
+  footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: unset;
+    width: 100%;
+  }
+
+  header {
+    padding-left: unset;
+  }
+}
