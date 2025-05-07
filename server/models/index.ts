@@ -33,7 +33,7 @@ export const ClientFiles = ClientFilesUploadModel(sequelize);
 // Clients.belongsTo(Admins, { foreignKey: "userId" });
 
 ClientFiles.belongsTo(Clients, {
-  foreignKey: "client_id",
+  foreignKey: "file_owner",
   as: "owner",
 });
 

@@ -23,6 +23,7 @@ const assetUploadFormStore = useAssetUploadFormStore();
 
 const currentStep = ref<number>(1);
 const error_submitting = ref<boolean>(false);
+const error_submitting__message = ref<string>("");
 const submitting = ref<boolean>(false);
 
 const steps_components = computed(() => {
@@ -55,8 +56,13 @@ const gotoNextStep = async () => {
 
       const res = await assetFormController.submit_form(props.client_details);
       emits("form_submission_success");
-    } catch (error) {
-      console.log(error);
+    } catch (err: any) {
+      // Handle error from the backend (e.g. file already exists, no file uploaded, etc.)
+      const errorMessage =
+        err?.message ||
+        "We encontered an error while submittin this form please try  again. Contact support if problem persist";
+
+      error_submitting__message.value = errorMessage;
       error_submitting.value = true;
     }
 
@@ -141,9 +147,9 @@ onMounted(() => {});
                   @click="gotoNextStep()"
                   :class="{
                     'opacity-[.5] hover:cursor-not-allowed':
-                      !validateCurrentStep,
+                      !validateCurrentStep || submitting,
                   }"
-                  :disabled="!validateCurrentStep"
+                  :disabled="!validateCurrentStep || submitting"
                   class="px-[50px] py-[16px] rounded-[2px] bg-black flex items-center justify-center gap-[10px] text-white"
                 >
                   <span v-if="isLastStep">Submit</span>
@@ -157,8 +163,7 @@ onMounted(() => {});
                 v-if="error_submitting"
                 class="text-red-800 w-full text-center my-4"
               >
-                We encontered an error while submittin this form please try
-                again. Contact support if problem persist
+                <span>{{ error_submitting__message }}</span>
               </p>
             </div>
           </div>

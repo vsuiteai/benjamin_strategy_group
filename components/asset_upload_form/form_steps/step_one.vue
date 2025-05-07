@@ -387,7 +387,7 @@ function onFileChange(event: Event) {
 
                 <p
                   v-if="step_two_file_to_be_uploaded?.name ?? false"
-                  class="mt-4 text-sm font-bold text-gray-500"
+                  class="mt-4 text-sm font-bold text-gray-500 text-left mx-4 max-w-sm break-all"
                 >
                   {{ step_two_file_to_be_uploaded?.name ?? "" }}
                 </p>

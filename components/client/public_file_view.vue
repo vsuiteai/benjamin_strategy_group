@@ -29,10 +29,13 @@ const getIcon = (contentType: string) => {
   switch (contentType) {
     case "text/csv":
       type = IconsFileTypesCsvs;
-
+      break;
+    case "application/pdf":
+      type = IconsFileTypesPdfs;
       break;
 
     default:
+      type = IconsFileTypesUnknown;
       break;
   }
 
@@ -41,11 +44,21 @@ const getIcon = (contentType: string) => {
 
 const parse_name = (raw_name: string) => {
   // Get just the filename after the last slash
+  const maxLength = 15;
   const fileNameWithPrefix = raw_name.split("/").pop();
 
-  const name = fileNameWithPrefix?.split("_").slice(1).join("_");
+  const filename = fileNameWithPrefix?.split("_").slice(1).join("_");
 
-  return name;
+  if (!filename) return "";
+  if (filename.length <= maxLength) return filename;
+
+  const ext = filename.split(".").pop() ?? "";
+  const nameWithoutExt = filename.slice(0, filename.length - ext.length - 1);
+
+  const firstPart = nameWithoutExt.slice(0, 7);
+  const lastPart = nameWithoutExt.slice(-7);
+
+  return `${firstPart}...${lastPart}.${ext}`;
 };
 
 const parse_date = (raw_date: string) => {
@@ -65,6 +78,11 @@ const parse_date = (raw_date: string) => {
 
 const restart_upload_process = () => {
   emits("restart_upload_process");
+};
+
+const goto_file = (publicUrl: string) => {
+  if (!(publicUrl ?? false)) return;
+  window.open(publicUrl, "_blank", "noopener,noreferrer");
 };
 
 onMounted(async () => {
@@ -88,7 +106,7 @@ onMounted(async () => {
     return;
   }
   client_files.value = res.files;
-  console.log(uid);
+  // console.log(uid);
 
   loading.value = false;
 });
@@ -139,11 +157,13 @@ onMounted(async () => {
                 class="grid grid-cols-4 items-start justify-between divide-x gap-[20px] w-full"
               >
                 <template v-for="file in client_files">
+                  <!-- {{ file }} -->
                   <div
-                    class="p-6 w-full bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 grid grid-cols-12 gap-3"
+                    class="p-6 w-full h-full bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 grid grid-cols-12 gap-3"
                   >
                     <div
-                      class="h-full p-2 border rounded flex items-center justify-center col-span-4"
+                      @click="goto_file(file?.publicUrl)"
+                      class="h-full p-2 border rounded flex items-center justify-center col-span-4 hover:cursor-pointer hover:border-black"
                     >
                       <component :is="getIcon(file.contentType)"></component>
                     </div>

@@ -11,13 +11,23 @@ export default defineEventHandler(async (event) => {
     // List all files
     const [files] = await bucket.getFiles({ prefix: `uploads/${uid}/` });
 
-    const fileUrls = files.map((file) => ({
-      name: file.name,
-      publicUrl: `https://storage.googleapis.com/${bucketName}/${file.name}`,
-      contentType: file.metadata?.contentType,
-      size: file.metadata?.size,
-      updated: file.metadata?.updated,
-    }));
+    const fileUrls = await Promise.all(
+      files.map(async (file) => {
+        const [signedUrl] = await file.getSignedUrl({
+          version: "v4",
+          action: "read",
+          expires: Date.now() + 60 * 60 * 1000, // 60 minutes
+        });
+
+        return {
+          name: file.name,
+          publicUrl: signedUrl, // ⬅️ the signed URL
+          contentType: file.metadata?.contentType,
+          size: file.metadata?.size,
+          updated: file.metadata?.updated,
+        };
+      })
+    );
 
     return {
       error: false,
