@@ -1,0 +1,7 @@
+gcloud builds submit --region=us-west2 --tag us-west2-docker.pkg.dev/shining-sol-453718-d6/quickstart-docker-repo/quickstart-image:tag1
+
+IMAGE_URI=us-docker.pkg.dev/shining-sol-453718-d6/benjamin-strategy-group/benjamin_strategy_group
+
+gcloud builds submit --tag us-docker.pkg.dev/shining-sol-453718-d6/benjamin-strategy-group/benjamin_strategy_group_wepapp
+
+gcloud run deploy benjamin-strategy-group-wepapp --image=us-docker.pkg.dev/shining-sol-453718-d6/benjamin-strategy-group

@@ -30,6 +30,12 @@ export const ClientFilesUploadModel = (sequelize: Sequelize) => {
         allowNull: false,
         unique: false,
       },
+      file_metric_contained: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        unique: false,
+      },
+
       file_GCS_name: {
         type: DataTypes.STRING(255),
         allowNull: false,

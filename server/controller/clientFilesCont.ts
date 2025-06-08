@@ -50,26 +50,35 @@ const create_client_file = async (client_file_details: ClientUploadedFile) => {
       file_GCS_name: client_file_details.file_GCS_name,
       file_GCS_id: client_file_details.file_GCS_id,
       file_owner: client_file_details.file_owner,
+      file_metric_contained: client_file_details.file_metric_contained,
     })
   ).save();
 
   return res.dataValues;
 };
 
-const get_clients = async ({
-  limit = 10,
-  offset = 0,
-}: {
-  limit: number;
-  offset: number;
-}) => {
-  const { rows: clients, count: total } = await Clients.findAndCountAll({
-    limit,
-    offset,
-    order: [["client_created_at", "DESC"]],
+const get_client_files_by_uuid = async (client_uid: string) => {
+  const client = await Clients.findOne({ where: { client_uid: client_uid } });
+  if (client === null) {
+    return null;
+  }
+
+  const client_files = await ClientFiles.findAll({
+    where: {
+      file_owner: client.dataValues.client_id,
+    },
   });
 
-  return { clients, total };
+  if (client_files === null) {
+    return null;
+  }
+  // console.log(client_files);
+
+  return client_files;
 };
 
-export { get_client_file_by_uuid_and_name, create_client_file, get_clients };
+export {
+  get_client_file_by_uuid_and_name,
+  create_client_file,
+  get_client_files_by_uuid,
+};

@@ -103,13 +103,9 @@ const create_new_client = async () => {
 
 <template>
   <ModalsModalStructure>
+    <template #title>Create Client</template>
     <template #body>
-      <div
-        class="flex flex-col justify-center items-center gap-[16px] lg:gap-[30px] h-full"
-      >
-        <!-- {{ errors }}
-        {{ meta }} -->
-        <h2 class="text-2xl font-extrabold mb-2">Create Client</h2>
+      <div class="w-full px-4">
         <form class="min-w-sm max-w-md mx-auto">
           <div class="mb-5 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -240,7 +236,7 @@ const create_new_client = async () => {
               'opacity-[.5] cursor-not-allowed': !isCurrentStepCompleted,
             }"
             type="submit"
-            class="text-white bg-black hover:bg-gray-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+            class="text-white bg-black hover:bg-gray-800 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-4"
           >
             Create Client
           </button>

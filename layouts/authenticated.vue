@@ -19,6 +19,11 @@ const modal_store = useModalStore();
   <ModalsClientsCreateNewClient
     v-if="modal_store.getCurrentModal === modalTypes.create_new_client"
   />
+
+  <ModalsAdminsCreateNewAdmin
+    v-if="modal_store.getCurrentModal === modalTypes.create_new_admin"
+  />
+
   <section class="h-full">
     <DashboardHeader @show-sidebar="showSideBar" />
 

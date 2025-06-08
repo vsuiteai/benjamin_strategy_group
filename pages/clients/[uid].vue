@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useModalStore } from "~/store/modal_store";
-import { modalTypes } from "~/config/modal_types";
 
 const route = useRoute();
 const domain = useDomain();
@@ -12,11 +11,12 @@ definePageMeta({
   breadcrumb_bottom: "",
 });
 
-const modal_store = useModalStore();
 const clientController = useClientController();
+const queryController = useQueryController();
 
 const client = ref<ClientDetail | null>(null);
 const submissions = ref<any[]>([]);
+const queries = ref<any[]>([]);
 const form_link_copied = ref(false);
 
 watchEffect(() => {
@@ -52,6 +52,32 @@ watch(client, (new_val) => {
   }
 });
 
+const parse_query_keys = (query: Query) => {
+  const prompt_types: Record<string, boolean> = {
+    "Narrative Builder": false,
+    "Financial Risk Scoring Engine": false,
+    "Strategic Diagnostic & Competitive Landscape": false,
+    "Nirvana Navigation Scenario Architect": false,
+  };
+
+  if (!query) return prompt_types;
+
+  if (query["BSANarrativeBuilder"]) prompt_types["Narrative Builder"] = true;
+  if (query["BSAFinancialRiskScoringEngine"])
+    prompt_types["Financial Risk Scoring Engine"] = true;
+  if (query["StrategicDiagnosticAndCompetitiveLandscape"])
+    prompt_types["Strategic Diagnostic & Competitive Landscape"] = true;
+  if (query["NirvanaNavigationScenarioArchitect"])
+    prompt_types["Nirvana Navigation Scenario Architect"] = true;
+
+  return prompt_types;
+};
+
+const goto_query = async (query_id: string) => {
+  const router = useRouter();
+  await router.push(`/queries/${query_id}`);
+};
+
 onBeforeMount(async () => {
   const res = await clientController.get_client(uid);
   console.log(res);
@@ -61,16 +87,18 @@ onBeforeMount(async () => {
   submissions.value = (
     await clientController.get_client_submissions(uid)
   ).submissions;
+
+  queries.value = (await queryController.get_queries(uid)).queries;
 });
 </script>
 
 <template>
-  <section class="min-w-full min-h-full px-[25px] lg:px-[50px]">
+  <section class="min-w-full min-h-full px-[25px] lg:px-[50px] mb-[50px]">
     <div
-      class="grid grid-cols-12 items-start justify-between gap-x-[20px] w-full"
+      class="grid grid-cols-12 items-start justify-between gap-x-[20px] w-full mb-16"
     >
       <div class="col-span-7">
-        <h3 class="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
+        <h3 class="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
           Submissions
         </h3>
 
@@ -198,6 +226,33 @@ onBeforeMount(async () => {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- {{ queries.length }} -->
+    <div v-if="queries.length > 0" class="w-full">
+      <h3 class="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
+        AI Queries
+      </h3>
+      <div
+        v-for="query in queries"
+        class="w-full mb-6 p-6 bg-white border rounded-md"
+      >
+        <div class="flex justify-start items-center gap-3">
+          <h3
+            @click="goto_query(query.query_id)"
+            class="text-lg text-gray-500 font-semibold decoration-dashed underline underline-offset-4 hover:opacity-[.5] hover:cursor-pointer"
+          >
+            {{ query.query_id }}
+          </h3>
+          <PromptsQueryStatus :status="query.status" />
+        </div>
+        <div class="mt-8">
+          <PromptsPromptTypeBadges :prompt_types="parse_query_keys(query)" />
+        </div>
+        <p class="mt-2 text-gray-400">
+          {{ query.formattedDate }}
+        </p>
       </div>
     </div>
   </section>

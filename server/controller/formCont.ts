@@ -15,7 +15,7 @@ const add_form_submission = async (
     created_at: new Date(),
   });
 
-  console.log(snapshot.id);
+  // console.log(snapshot.id);
 
   return snapshot.id;
 };
@@ -28,10 +28,6 @@ const get_submissions = async ({ client_uid }: { client_uid: string }) => {
     console.log("No matching documents.");
     return { submissions: [] };
   }
-
-  snapshot.forEach((doc) => {
-    console.log(doc.id, "=>", doc.data());
-  });
 
   const submissions = snapshot.docs.map((doc) => {
     const data = doc.data();

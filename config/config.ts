@@ -42,9 +42,16 @@ const company_roles = [
   "Accountant",
 ];
 
+const Metrics = {
+  financial: "Financial Metrics",
+  operational: "Operational Metrics",
+  sales: "Sales Metrics",
+};
+
 export {
   onboarding_question,
   advisior_onboarding_question,
   company_roles,
   asset_upload_question,
+  Metrics,
 };

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { IconsNavSettings } from "#components";
 import { ref } from "vue";
 
 defineEmits(["hideSidebar"]);
@@ -60,6 +61,12 @@ const dropdown: () => void = () => {
             <IconsClientsIcon />
           </template>
           <template #sidebar_nav_text>Clients</template>
+        </SidebarNavItemLink>
+        <SidebarNavItemLink to="/settings">
+          <template #sidebar_nav_icon>
+            <IconsNavSettings />
+          </template>
+          <template #sidebar_nav_text>Settings</template>
         </SidebarNavItemLink>
       </div>
 

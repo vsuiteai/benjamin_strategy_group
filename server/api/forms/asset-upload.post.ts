@@ -2,8 +2,12 @@ import fs from "fs";
 import {
   get_client_file_by_uuid_and_name,
   create_client_file,
+  get_client_files_by_uuid,
 } from "~/server/controller/clientFilesCont";
-import { get_client_by_uuid } from "~/server/controller/clientCont";
+import {
+  email_client_by_uuid,
+  get_client_by_uuid,
+} from "~/server/controller/clientCont";
 
 import formidable, { Fields, Files, File } from "formidable";
 import { promisify } from "util";
@@ -15,6 +19,44 @@ export const config = {
 };
 
 import { storage, bucket, bucketName } from "~/server/cloud_storage/gcp";
+import { Metrics } from "~/config/config";
+import { initiate_query_process } from "~/server/controller/queryCont";
+
+const has_client_uploaded_all_the_needed_files = async (client_uid: string) => {
+  const file_metrics_needed = new Set(Object.values(Metrics));
+  const main_files = ((await get_client_files_by_uuid(client_uid)) ??
+    ([] as ClientUploadedFile[])) as ClientUploadedFile[];
+
+  for (const file of main_files) {
+    for (const metric of file_metrics_needed) {
+      if (file.file_metric_contained.includes(metric)) {
+        file_metrics_needed.delete(metric); // more efficient than splice
+      }
+    }
+  }
+
+  // console.log(file_metrics_needed);
+
+  if (file_metrics_needed.size > 0) {
+    const metricsListHtml = Array.from(file_metrics_needed)
+      .map((metric) => `<li>${metric}</li>`)
+      .join("");
+
+    const metricsHtmlString = `<ul>${metricsListHtml}</ul>`;
+
+    await email_client_by_uuid(
+      client_uid,
+      "insufficient_files",
+      metricsHtmlString
+    );
+  } else {
+    const client = await get_client_by_uuid(client_uid);
+
+    if (client && client.client_id) {
+      initiate_query_process(client.client_id, main_files);
+    }
+  }
+};
 
 export default defineEventHandler(async (event) => {
   const form = formidable({ keepExtensions: true });
@@ -101,6 +143,8 @@ export default defineEventHandler(async (event) => {
     },
   });
 
+  console.log(metric_contained);
+
   const publicUrl = `https://storage.googleapis.com/${bucketName}/${destination}`;
 
   await create_client_file({
@@ -109,7 +153,10 @@ export default defineEventHandler(async (event) => {
     file_GCS_name,
     file_GCS_id: fileCreateionRes[0].id!,
     file_owner: file_owner,
+    file_metric_contained: metric_contained ?? "",
   });
+
+  await has_client_uploaded_all_the_needed_files(client_uid);
 
   return {
     message: "File uploaded successfully",

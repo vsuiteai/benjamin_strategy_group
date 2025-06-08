@@ -2,7 +2,7 @@
 
 <template>
   <section
-    class="h-[100vh] w-[100vw] lg:max-h-[100vh] lg:max-w-[100vw] flex items-center justify-center"
+    class="min-h-[100vh] w-[100vw] lg:max-w-[100vw] flex items-center justify-center"
   >
     <slot />
   </section>

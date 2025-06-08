@@ -20,5 +20,12 @@ export default defineNuxtConfig({
       database: process.env.DB_NAME,
     },
     protected_backend_route: ["/api/clients"],
+    emailing_user: "bonifaceiniubong413@gmail.com",
+    emailing_pass: "saszhzzzroxzcfhx",
+  },
+
+  nitro: {
+    // preset: "node",
+    preset: "node-server",
   },
 });

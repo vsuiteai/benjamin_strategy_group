@@ -4,7 +4,7 @@ export const useClientController = () => {
   const get_client = async (uid: string) => {
     try {
       const response = await axios.get(`/api/clients/${uid}`);
-      console.log(response);
+      // console.log(response);
 
       const client = (response.data?.data?.client as ClientDetail) ?? null;
       return { client };
@@ -41,7 +41,7 @@ export const useClientController = () => {
     try {
       const response = await axios.get("/api/clients");
 
-      console.log(response);
+      // console.log(response);
 
       const pagination =
         (response.data?.data?.pagination as Pagination) ?? null;
