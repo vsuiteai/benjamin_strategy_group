@@ -2,12 +2,10 @@
 import { useAdminsStore } from "~/store/admins_store";
 
 const admins_store = useAdminsStore();
-
-const admins = ref<AdminDetail[]>(admins_store.getAdmins);
 </script>
 
 <template>
-  <div v-for="admin in admins">
+  <div v-for="admin in admins_store.getAdmins">
     <div class="relative flex items-center space-x-3 mt-4">
       <div class="flex-shrink-0">
         <div

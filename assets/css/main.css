@@ -7,7 +7,9 @@
 button:hover {
   cursor: pointer;
 }
-button:hover.cursor-not-allowed {
+
+button:hover.cursor-not-allowed,
+button:disabled {
   cursor: no-drop;
 }
 

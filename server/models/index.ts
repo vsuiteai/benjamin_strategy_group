@@ -1,5 +1,6 @@
+import "dotenv/config";
+
 import { Sequelize } from "sequelize";
-import { useRuntimeConfig } from "#imports";
 
 // Import models
 import { AdminModel } from "./admins";
@@ -7,17 +8,22 @@ import { ClientModel } from "./clients";
 import { ClientFilesUploadModel } from "./client_files_upload";
 
 // Get config
-const config = useRuntimeConfig();
+const MYSQL = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+};
 
-// console.log(config.mysql);
+// console.log(MYSQL);
 
 // Initialize Sequelize
 export const sequelize = new Sequelize(
-  config.mysql.database,
-  config.mysql.user,
-  config.mysql.password,
+  MYSQL.database!,
+  MYSQL.user!,
+  MYSQL.password!,
   {
-    host: config.mysql.host,
+    host: MYSQL.host!,
     dialect: "mysql",
     logging: false,
   }

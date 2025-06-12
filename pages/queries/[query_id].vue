@@ -11,6 +11,7 @@ definePageMeta({
   layout: "authenticated",
   breadcrumb_top: "",
   breadcrumb_bottom: "Query",
+  middleware: ["authenticated"],
 });
 
 const modal_store = useModalStore();

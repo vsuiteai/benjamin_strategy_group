@@ -12,6 +12,7 @@ definePageMeta({
   layout: "authenticated",
   breadcrumb_top: "",
   breadcrumb_bottom: "",
+  middleware: ["authenticated"],
 });
 
 route.meta.breadcrumb_top = `Welcome back, ${username.value}`;

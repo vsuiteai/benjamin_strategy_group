@@ -21,20 +21,15 @@ export default defineEventHandler(async (event) => {
     });
 
   const isMatch = await bcrypt.compare(admin_password, admin.admin_password);
-  if (!isMatch)
+  if (!isMatch) {
     throw createError({
       statusCode: 401,
       statusMessage: "Invalid credentials",
     });
+  }
 
-  const token = jwt.sign(
-    { id: admin.admin_id, email: admin.admin_username },
-    "xxx_yyy_zzz",
-    {
-      expiresIn: "1h",
-    }
-  );
-
-  setCookie(event, "token", token, { httpOnly: true });
-  return { message: "Login successful", token };
+  await setUserSession(event, {
+    user: { id: admin.admin_id, email: admin.admin_username },
+  });
+  return { message: "Login successful" };
 });

@@ -1,23 +1,16 @@
 <script setup lang="ts">
-import { IconsNavSettings } from "#components";
+import { IconsNavLogout, IconsNavSettings } from "#components";
 import { ref } from "vue";
+
+const { user, clear: clearSession } = useUserSession();
 
 defineEmits(["hideSidebar"]);
 
-const nav_dropdown = ref<HTMLElement | null>(null);
-const nav_dropdown_activator_icon = ref<HTMLElement | null>(null);
-
 const current_router = useRouter();
 
-const dropdown: () => void = () => {
-  console.log("clicked");
-  nav_dropdown.value !== null
-    ? nav_dropdown.value.classList.toggle("hidden")
-    : null;
-
-  nav_dropdown_activator_icon.value !== null
-    ? nav_dropdown_activator_icon.value.classList.toggle("rotate-180")
-    : null;
+const logout_user = async () => {
+  await clearSession();
+  await navigateTo("/");
 };
 </script>
 
@@ -67,6 +60,15 @@ const dropdown: () => void = () => {
             <IconsNavSettings />
           </template>
           <template #sidebar_nav_text>Settings</template>
+        </SidebarNavItemLink>
+        <SidebarNavItemLink
+          @click="logout_user"
+          class="bg-red-900 text-red-100"
+        >
+          <template #sidebar_nav_icon>
+            <IconsNavLogout stroke="#FEE2E2" />
+          </template>
+          <template #sidebar_nav_text>Logout</template>
         </SidebarNavItemLink>
       </div>
 

@@ -26,8 +26,20 @@ export const useAdminController = () => {
     console.log(response);
   };
 
+  const login_admin = async (email: string, password: string) => {
+    const admin_username = email;
+    const admin_password = password;
+    const response = await axios.post("/api/auth/login", {
+      admin_username,
+      admin_password,
+    });
+
+    console.log(response);
+  };
+
   return {
     create_admin,
+    login_admin,
     get_admins,
   };
 };

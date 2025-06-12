@@ -9,6 +9,7 @@ definePageMeta({
   layout: "authenticated",
   breadcrumb_top: "",
   breadcrumb_bottom: "",
+  middleware: ["authenticated"],
 });
 
 const clientController = useClientController();

@@ -102,6 +102,14 @@ declare global {
   } | null;
 
   type EmailTypes = "insufficient_files";
+
+  type FileMetadata = {
+    name: string;
+    publicUrl: string;
+    contentType: string;
+    size: string;
+    created_at: string; // ISO date string
+  };
 }
 
 export {};

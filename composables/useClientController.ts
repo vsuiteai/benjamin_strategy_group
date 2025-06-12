@@ -30,10 +30,11 @@ export const useClientController = () => {
       const response = await axios.get(`/api/clients/${uid}/assets`);
       console.log(response);
 
-      const files = (response.data?.data?.files as any) ?? [];
-      return { files };
+      const files = (response.data?.data?.client_files as any) ?? [];
+      const pagination = (response.data?.data?.pagination as any) ?? null;
+      return { files, pagination };
     } catch (error) {
-      return { files: [] };
+      return { files: [], pagination: null };
     }
   };
 
@@ -58,11 +59,16 @@ export const useClientController = () => {
     console.log(response);
   };
 
+  const got_to_client_files_home = (uid: string) => {
+    useRouter().push(`/client-dashboard/${uid}/files`);
+  };
+
   return {
     get_clients,
     get_client_submissions,
     get_client_files,
     create_client,
     get_client,
+    got_to_client_files_home,
   };
 };

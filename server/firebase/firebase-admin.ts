@@ -6,12 +6,12 @@ import {
   Filter,
 } from "firebase-admin/firestore";
 
-// initializeApp({ credential: applicationDefault() });
-initializeApp({
-  credential: cert(
-    "/Users/mac/Projects/Marcus Ben/benjamin_strategy_group/cred_firebase.json"
-  ),
-});
+initializeApp({ credential: applicationDefault() });
+// initializeApp({
+//   credential: cert(
+//     "/Users/mac/Projects/Marcus Ben/benjamin_strategy_group/cred_firebase.json"
+//   ),
+// });
 
 const firestore_db = getFirestore("benjamin-strategy-non-rel-db");
 

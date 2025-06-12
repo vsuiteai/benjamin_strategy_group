@@ -57,6 +57,29 @@ const create_client_file = async (client_file_details: ClientUploadedFile) => {
   return res.dataValues;
 };
 
+const get_client_files_by_uuid_with_pagination = async (
+  limit: number,
+  offset: number,
+  client_uid: string
+) => {
+  const client = await Clients.findOne({ where: { client_uid: client_uid } });
+  if (client === null) {
+    return { client_files: null, total: null };
+  }
+
+  const { rows: client_files, count: total } =
+    await ClientFiles.findAndCountAll({
+      where: {
+        file_owner: client.dataValues.client_id,
+      },
+      limit,
+      offset,
+      order: [["created_at", "DESC"]],
+    });
+
+  return { client_files, total };
+};
+
 const get_client_files_by_uuid = async (client_uid: string) => {
   const client = await Clients.findOne({ where: { client_uid: client_uid } });
   if (client === null) {
@@ -80,5 +103,6 @@ const get_client_files_by_uuid = async (client_uid: string) => {
 export {
   get_client_file_by_uuid_and_name,
   create_client_file,
+  get_client_files_by_uuid_with_pagination,
   get_client_files_by_uuid,
 };

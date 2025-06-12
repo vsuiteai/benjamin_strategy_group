@@ -9,6 +9,7 @@ definePageMeta({
   layout: "authenticated",
   breadcrumb_top: "ddgdgd",
   breadcrumb_bottom: "dgdgdgdgdg",
+  middleware: ["authenticated"],
 });
 
 onBeforeMount(async () => {
