@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import {
   get_client_by_uuid,
+  get_client_by_email,
   create_client,
 } from "~/server/controller/clientCont";
 
@@ -31,6 +32,14 @@ export default defineEventHandler(async (event) => {
     ) {
       throw new Error("Required detail(s) missing");
     }
+
+    // let client_primary_work_email_is_a_duplicate = await get_client_by_email(
+    //   client_contact_work_email
+    // );
+
+    // if (client_primary_work_email_is_a_duplicate) {
+    //   throw new Error("Primary Work Email already exists");
+    // }
 
     const res = await create_client({
       client_uid: client_uid,

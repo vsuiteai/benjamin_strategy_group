@@ -198,11 +198,11 @@ onMounted(() => {});
           class="grid grid-cols-12 items-start justify-between px-[20px] divide-x gap-x-[20px] w-full min-h-[65vh]"
         >
           <div
-            class="col-span-3 flex justify-start mr-[50px] h-full max-h-[60vh] overflow-y-scroll"
+            class="col-span-3 flex justify-start h-full max-h-[60vh] overflow-y-scroll"
           >
             <OnboardingFormMiscPartsStepProgress :current_step="currentStep" />
           </div>
-          <div class="col-span-9">
+          <div class="col-span-9 pl-[20px]">
             <div class="max-h-[50vh] overflow-y-scroll px-[10px]">
               <component :is="currentStepComponent"></component>
             </div>

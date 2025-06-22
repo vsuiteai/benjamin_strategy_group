@@ -8,12 +8,6 @@ const emits = defineEmits(["is_valid"]);
 
 const onboardClientFormSectionTwoStore = useOnboardClientFormSectionTwoStore();
 
-/**
- * 
-
-    
- */
-
 const schema = toTypedSchema(
   yup.object({
     step_two_how_often_do_you_recognize_your_emotions: yup

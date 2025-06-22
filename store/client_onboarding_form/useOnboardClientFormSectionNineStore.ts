@@ -16,6 +16,15 @@ export const useOnboardClientFormSectionNineStore = defineStore(
           "Yes, and it is partially implemented",
           "Yes, and it is fully implemented",
         ],
+
+        mapped_question_options: {
+          e: "No, I do not have a marketing plan",
+          d: "I have an informal plan but it is not documented",
+          c: "Yes, but it is outdated",
+          b: "Yes, and it is partially implemented",
+          a: "Yes, and it is fully implemented",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_nine_how_often_do_you_evaluate_the_impact_of_your_marketing_efforts =
@@ -31,6 +40,14 @@ export const useOnboardClientFormSectionNineStore = defineStore(
           "Often",
           "Always",
         ],
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_nine_how_confident_are_you_in_understanding_which_marketing_channels_you_need =
@@ -46,6 +63,14 @@ export const useOnboardClientFormSectionNineStore = defineStore(
           "Confident",
           "Exceptionally confident",
         ],
+        mapped_question_options: {
+          e: "Not confident",
+          d: "Slightly confident",
+          c: "Neutral",
+          b: "Confident",
+          a: "Exceptionally confident",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_nine_how_effectively_do_you_measure_the_ROI = reactive({
@@ -60,6 +85,14 @@ export const useOnboardClientFormSectionNineStore = defineStore(
         "Well",
         "Exceptionally well",
       ],
+      mapped_question_options: {
+        e: "Not effectively",
+        d: "Poorly",
+        c: "Adequately",
+        b: "Well",
+        a: "Exceptionally well",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const get_step_nine_do_you_currently_have_a_documented_marketing_plan =
@@ -125,32 +158,28 @@ export const useOnboardClientFormSectionNineStore = defineStore(
     };
 
     const get_answers_for_submission = computed(() => {
-      return [
-        {
-          question:
-            step_nine_do_you_currently_have_a_documented_marketing_plan.question_label,
-          answer:
-            step_nine_do_you_currently_have_a_documented_marketing_plan.question_answer,
-        },
-        {
-          question:
-            step_nine_how_often_do_you_evaluate_the_impact_of_your_marketing_efforts.question_label,
-          answer:
-            step_nine_how_often_do_you_evaluate_the_impact_of_your_marketing_efforts.question_answer,
-        },
-        {
-          question:
-            step_nine_how_confident_are_you_in_understanding_which_marketing_channels_you_need.question_label,
-          answer:
-            step_nine_how_confident_are_you_in_understanding_which_marketing_channels_you_need.question_answer,
-        },
-        {
-          question:
-            step_nine_how_effectively_do_you_measure_the_ROI.question_label,
-          answer:
-            step_nine_how_effectively_do_you_measure_the_ROI.question_answer,
-        },
+      const questions = [
+        step_nine_do_you_currently_have_a_documented_marketing_plan,
+        step_nine_how_often_do_you_evaluate_the_impact_of_your_marketing_efforts,
+        step_nine_how_confident_are_you_in_understanding_which_marketing_channels_you_need,
+        step_nine_how_effectively_do_you_measure_the_ROI,
       ];
+
+      const processed_output = [];
+
+      for (let index = 0; index < questions.length; index++) {
+        const element = questions[index];
+
+        processed_output.push({
+          question: element.question_label,
+          options: element.mapped_question_options,
+          answer: element.question_answer,
+          for_ai_multiple_choice_analysis:
+            element.for_ai_multiple_choice_analysis,
+        });
+      }
+
+      return processed_output;
     });
 
     return {

@@ -9,6 +9,15 @@ export const useOnboardClientFormSectionTwelveStore = defineStore(
         "How often do you implement innovative ideas to solve business challenges or improve processes?",
       question_answer: "",
       question_options: ["Never", "Rarely", "Occasionally", "Often", "Always"],
+
+      mapped_question_options: {
+        e: "Never",
+        d: "Rarely",
+        c: "Occasionally",
+        b: "Often",
+        a: "Always",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_twelve_how_confident_are_you_in_generating_creative_soln =
@@ -24,6 +33,15 @@ export const useOnboardClientFormSectionTwelveStore = defineStore(
           "Confident",
           "Very confident",
         ],
+
+        mapped_question_options: {
+          e: "Not confident",
+          d: "Slightly confident",
+          c: "Neutral",
+          b: "Confident",
+          a: "Very confident",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_twelve_how_frequently_do_you_encourage_your_team_to_brainstorm =
@@ -39,6 +57,15 @@ export const useOnboardClientFormSectionTwelveStore = defineStore(
           "Often",
           "Always",
         ],
+
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const get_step_twelve_how_often_do_you_implement_innovative_ideas =
@@ -90,26 +117,27 @@ export const useOnboardClientFormSectionTwelveStore = defineStore(
       };
 
     const get_answers_for_submission = computed(() => {
-      return [
-        {
-          question:
-            step_twelve_how_often_do_you_implement_innovative_ideas.question_label,
-          answer:
-            step_twelve_how_often_do_you_implement_innovative_ideas.question_answer,
-        },
-        {
-          question:
-            step_twelve_how_confident_are_you_in_generating_creative_soln.question_label,
-          answer:
-            step_twelve_how_confident_are_you_in_generating_creative_soln.question_answer,
-        },
-        {
-          question:
-            step_twelve_how_frequently_do_you_encourage_your_team_to_brainstorm.question_label,
-          answer:
-            step_twelve_how_frequently_do_you_encourage_your_team_to_brainstorm.question_answer,
-        },
+      const questions = [
+        step_twelve_how_often_do_you_implement_innovative_ideas,
+        step_twelve_how_confident_are_you_in_generating_creative_soln,
+        step_twelve_how_frequently_do_you_encourage_your_team_to_brainstorm,
       ];
+
+      const processed_output = [];
+
+      for (let index = 0; index < questions.length; index++) {
+        const element = questions[index];
+
+        processed_output.push({
+          question: element.question_label,
+          options: element.mapped_question_options,
+          answer: element.question_answer,
+          for_ai_multiple_choice_analysis:
+            element.for_ai_multiple_choice_analysis,
+        });
+      }
+
+      return processed_output;
     });
 
     return {

@@ -40,6 +40,7 @@ const get_queries_by_client_uid = async (client_uid: string) => {
 
   const snapshot = await collection
     .where("client.client_uid", "==", client_uid)
+    .orderBy("created_at", "desc") // or "asc" for ascending
     .get();
   if (snapshot.empty) {
     console.log("No matching documents.");

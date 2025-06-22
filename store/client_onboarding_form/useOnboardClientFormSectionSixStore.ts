@@ -16,6 +16,15 @@ export const useOnboardClientFormSectionSixStore = defineStore(
           "Often",
           "Always",
         ],
+
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_six_rate_your_ability_to_tailor_your_pitch_to_meet_specific_needs =
@@ -25,6 +34,14 @@ export const useOnboardClientFormSectionSixStore = defineStore(
           "How would you rate your ability to tailor your pitch to meet the specific needs of clients or stakeholders?",
         question_answer: "",
         question_options: ["Poor", "Fair", "Average", "Good", "Excellent"],
+        mapped_question_options: {
+          e: "Poor",
+          d: "Fair",
+          c: "Average",
+          b: "Good",
+          a: "Excellent",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_six_how_frequently_do_you_use_storytelling = reactive({
@@ -33,6 +50,14 @@ export const useOnboardClientFormSectionSixStore = defineStore(
         "How frequently do you use storytelling techniques to make your business proposals more compelling?",
       question_answer: "",
       question_options: ["Never", "Rarely", "Occasionally", "Often", "Always"],
+      mapped_question_options: {
+        e: "Never",
+        d: "Rarely",
+        c: "Occasionally",
+        b: "Often",
+        a: "Always",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_six_how_confident_are_you_when_negotiating_favorable_terms =
@@ -48,6 +73,15 @@ export const useOnboardClientFormSectionSixStore = defineStore(
           "Confident",
           "Very confident",
         ],
+
+        mapped_question_options: {
+          e: "Not confident",
+          d: "Slightly confident",
+          c: "Neutral",
+          b: "Confident",
+          a: "Very confident",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_six_how_often_do_you_prepare_thoroughly_before_making_an_argument =
@@ -63,6 +97,14 @@ export const useOnboardClientFormSectionSixStore = defineStore(
           "Often",
           "Always",
         ],
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const get_step_six_how_often_do_you_succeed_convincing_clients_to_adopt_your_ideas_or_solutn =
@@ -140,38 +182,29 @@ export const useOnboardClientFormSectionSixStore = defineStore(
       };
 
     const get_answers_for_submission = computed(() => {
-      return [
-        {
-          question:
-            step_six_how_often_do_you_succeed_convincing_clients_to_adopt_your_ideas_or_solutn.question_label,
-          answer:
-            step_six_how_often_do_you_succeed_convincing_clients_to_adopt_your_ideas_or_solutn.question_answer,
-        },
-        {
-          question:
-            step_six_rate_your_ability_to_tailor_your_pitch_to_meet_specific_needs.question_label,
-          answer:
-            step_six_rate_your_ability_to_tailor_your_pitch_to_meet_specific_needs.question_answer,
-        },
-        {
-          question:
-            step_six_how_frequently_do_you_use_storytelling.question_label,
-          answer:
-            step_six_how_frequently_do_you_use_storytelling.question_answer,
-        },
-        {
-          question:
-            step_six_how_confident_are_you_when_negotiating_favorable_terms.question_label,
-          answer:
-            step_six_how_confident_are_you_when_negotiating_favorable_terms.question_answer,
-        },
-        {
-          question:
-            step_six_how_often_do_you_prepare_thoroughly_before_making_an_argument.question_label,
-          answer:
-            step_six_how_often_do_you_prepare_thoroughly_before_making_an_argument.question_answer,
-        },
+      const questions = [
+        step_six_how_often_do_you_succeed_convincing_clients_to_adopt_your_ideas_or_solutn,
+        step_six_rate_your_ability_to_tailor_your_pitch_to_meet_specific_needs,
+        step_six_how_frequently_do_you_use_storytelling,
+        step_six_how_confident_are_you_when_negotiating_favorable_terms,
+        step_six_how_often_do_you_prepare_thoroughly_before_making_an_argument,
       ];
+
+      const processed_output = [];
+
+      for (let index = 0; index < questions.length; index++) {
+        const element = questions[index];
+
+        processed_output.push({
+          question: element.question_label,
+          options: element.mapped_question_options,
+          answer: element.question_answer,
+          for_ai_multiple_choice_analysis:
+            element.for_ai_multiple_choice_analysis,
+        });
+      }
+
+      return processed_output;
     });
 
     return {

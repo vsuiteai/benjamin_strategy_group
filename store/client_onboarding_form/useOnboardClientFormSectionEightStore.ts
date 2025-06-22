@@ -15,6 +15,15 @@ export const useOnboardClientFormSectionEightStore = defineStore(
         "Yes, and it is partially implemented",
         "Yes, and it is fully implemented",
       ],
+
+      mapped_question_options: {
+        e: "No, I do not have a plan",
+        d: "I have an informal plan but it is not documented",
+        c: "Yes, but it is outdated",
+        b: "Yes, and it is partially implemented",
+        a: "Yes, and it is fully implemented",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_eight_how_often_do_you_evaluate_the_impact_of_your_sales_efforts =
@@ -30,6 +39,15 @@ export const useOnboardClientFormSectionEightStore = defineStore(
           "Often",
           "Always",
         ],
+
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_eight_how_effectively_do_you_measure_the_ROI_of_your_sales_activities =
@@ -45,6 +63,15 @@ export const useOnboardClientFormSectionEightStore = defineStore(
           "Well",
           "Exceptionally well",
         ],
+
+        mapped_question_options: {
+          e: "Not effectively",
+          d: "Poorly",
+          c: "Adequately",
+          b: "Well",
+          a: "Exceptionally well",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_eight_how_frequently_do_you_adjust_your_sales_tactics = reactive(
@@ -60,6 +87,15 @@ export const useOnboardClientFormSectionEightStore = defineStore(
           "Often",
           "Always",
         ],
+
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       }
     );
 
@@ -128,35 +164,28 @@ export const useOnboardClientFormSectionEightStore = defineStore(
     };
 
     const get_answers_for_submission = computed(() => {
-      return [
-        {
-          question:
-            step_eight_do_you_currently_have_a_documented_strategy.question_label,
-          answer:
-            step_eight_do_you_currently_have_a_documented_strategy.question_answer,
-        },
-
-        {
-          question:
-            step_eight_how_often_do_you_evaluate_the_impact_of_your_sales_efforts.question_label,
-          answer:
-            step_eight_how_often_do_you_evaluate_the_impact_of_your_sales_efforts.question_answer,
-        },
-
-        {
-          question:
-            step_eight_how_effectively_do_you_measure_the_ROI_of_your_sales_activities.question_label,
-          answer:
-            step_eight_how_effectively_do_you_measure_the_ROI_of_your_sales_activities.question_answer,
-        },
-
-        {
-          question:
-            step_eight_how_frequently_do_you_adjust_your_sales_tactics.question_label,
-          answer:
-            step_eight_how_frequently_do_you_adjust_your_sales_tactics.question_answer,
-        },
+      const questions = [
+        step_eight_do_you_currently_have_a_documented_strategy,
+        step_eight_how_often_do_you_evaluate_the_impact_of_your_sales_efforts,
+        step_eight_how_effectively_do_you_measure_the_ROI_of_your_sales_activities,
+        step_eight_how_frequently_do_you_adjust_your_sales_tactics,
       ];
+
+      const processed_output = [];
+
+      for (let index = 0; index < questions.length; index++) {
+        const element = questions[index];
+
+        processed_output.push({
+          question: element.question_label,
+          options: element.mapped_question_options,
+          answer: element.question_answer,
+          for_ai_multiple_choice_analysis:
+            element.for_ai_multiple_choice_analysis,
+        });
+      }
+
+      return processed_output;
     });
 
     return {

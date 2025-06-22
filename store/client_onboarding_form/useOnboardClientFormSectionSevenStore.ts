@@ -16,6 +16,14 @@ export const useOnboardClientFormSectionSevenStore = defineStore(
           "Often",
           "Always",
         ],
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_seven_how_confident_are_you_in_handling_unexpected_operational_issues =
@@ -31,6 +39,14 @@ export const useOnboardClientFormSectionSevenStore = defineStore(
           "Confident",
           "Very confident",
         ],
+        mapped_question_options: {
+          e: "Not confident",
+          d: "Slightly confident",
+          c: "Neutral",
+          b: "Confident",
+          a: "Very confident",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_seven_how_often_do_you_seek_input_when_solving_complex_problems =
@@ -46,6 +62,14 @@ export const useOnboardClientFormSectionSevenStore = defineStore(
           "Often",
           "Always",
         ],
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_seven_how_quickly_do_you_make_decisions_when_faced_with_business_challenges =
@@ -61,6 +85,14 @@ export const useOnboardClientFormSectionSevenStore = defineStore(
           "Quickly",
           "Very quickly",
         ],
+        mapped_question_options: {
+          e: "Very slowly",
+          d: "Slowly",
+          c: "Moderately",
+          b: "Quickly",
+          a: "Very quickly",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_seven_how_often_do_you_evaluate_the_success_of_your_solutn_after_implementn =
@@ -76,6 +108,14 @@ export const useOnboardClientFormSectionSevenStore = defineStore(
           "Often",
           "Always",
         ],
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const get_step_seven_how_frequently_do_you_identify_the_root_cause_of_biz_problems =
@@ -154,38 +194,29 @@ export const useOnboardClientFormSectionSevenStore = defineStore(
       };
 
     const get_answers_for_submission = computed(() => {
-      return [
-        {
-          question:
-            step_seven_how_frequently_do_you_identify_the_root_cause_of_biz_problems.question_label,
-          answer:
-            step_seven_how_frequently_do_you_identify_the_root_cause_of_biz_problems.question_answer,
-        },
-        {
-          question:
-            step_seven_how_confident_are_you_in_handling_unexpected_operational_issues.question_label,
-          answer:
-            step_seven_how_confident_are_you_in_handling_unexpected_operational_issues.question_answer,
-        },
-        {
-          question:
-            step_seven_how_often_do_you_seek_input_when_solving_complex_problems.question_label,
-          answer:
-            step_seven_how_often_do_you_seek_input_when_solving_complex_problems.question_answer,
-        },
-        {
-          question:
-            step_seven_how_quickly_do_you_make_decisions_when_faced_with_business_challenges.question_label,
-          answer:
-            step_seven_how_quickly_do_you_make_decisions_when_faced_with_business_challenges.question_answer,
-        },
-        {
-          question:
-            step_seven_how_often_do_you_evaluate_the_success_of_your_solutn_after_implementn.question_label,
-          answer:
-            step_seven_how_often_do_you_evaluate_the_success_of_your_solutn_after_implementn.question_answer,
-        },
+      const questions = [
+        step_seven_how_frequently_do_you_identify_the_root_cause_of_biz_problems,
+        step_seven_how_confident_are_you_in_handling_unexpected_operational_issues,
+        step_seven_how_often_do_you_seek_input_when_solving_complex_problems,
+        step_seven_how_quickly_do_you_make_decisions_when_faced_with_business_challenges,
+        step_seven_how_often_do_you_evaluate_the_success_of_your_solutn_after_implementn,
       ];
+
+      const processed_output = [];
+
+      for (let index = 0; index < questions.length; index++) {
+        const element = questions[index];
+
+        processed_output.push({
+          question: element.question_label,
+          options: element.mapped_question_options,
+          answer: element.question_answer,
+          for_ai_multiple_choice_analysis:
+            element.for_ai_multiple_choice_analysis,
+        });
+      }
+
+      return processed_output;
     });
 
     return {

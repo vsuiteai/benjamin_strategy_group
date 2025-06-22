@@ -11,6 +11,17 @@ const get_client_by_uuid = async (client_uid: string) => {
   }
 };
 
+const get_client_by_email = async (client_primary_work_email: string) => {
+  const client = await Clients.findOne({
+    where: { client_contact_work_email: client_primary_work_email },
+  });
+  if (client === null) {
+    return null;
+  } else {
+    return client.dataValues as ClientDetail;
+  }
+};
+
 const create_client = async (client_details: ClientDetail) => {
   const res = await (
     await Clients.create({
@@ -69,4 +80,10 @@ const email_client_by_uuid = async (
   sendEmail(resolved_client.client_contact_work_email, subject, html_body);
 };
 
-export { get_client_by_uuid, create_client, get_clients, email_client_by_uuid };
+export {
+  get_client_by_uuid,
+  get_client_by_email,
+  create_client,
+  get_clients,
+  email_client_by_uuid,
+};

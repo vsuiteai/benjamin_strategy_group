@@ -16,6 +16,15 @@ export const useOnboardClientFormSectionFourStore = defineStore(
           "Often",
           "Always",
         ],
+
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_four_how_well_do_you_maintain_long_term_relationships_with_clients =
@@ -31,6 +40,15 @@ export const useOnboardClientFormSectionFourStore = defineStore(
           "Well",
           "Exceptionally well",
         ],
+
+        mapped_question_options: {
+          e: "Poorly",
+          d: "Fairly",
+          c: "Adequately",
+          b: "Well",
+          a: "Exceptionally well",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_four_how_often_do_you_engage_with_potential_recruits = reactive({
@@ -39,6 +57,15 @@ export const useOnboardClientFormSectionFourStore = defineStore(
         "How often do you engage with potential recruits to identify and hire key talent for your business?",
       question_answer: "",
       question_options: ["Never", "Rarely", "Occasionally", "Often", "Always"],
+
+      mapped_question_options: {
+        e: "Never",
+        d: "Rarely",
+        c: "Occasionally",
+        b: "Often",
+        a: "Always",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_four_how_comfortable_are_you_in_initiating_conversatn = reactive(
@@ -54,6 +81,15 @@ export const useOnboardClientFormSectionFourStore = defineStore(
           "Comfortable",
           "Very comfortable",
         ],
+
+        mapped_question_options: {
+          e: "Very uncomfortable",
+          d: "Uncomfortable",
+          c: "Neutral",
+          b: "Comfortable",
+          a: "Very comfortable",
+        },
+        for_ai_multiple_choice_analysis: true,
       }
     );
 
@@ -70,6 +106,15 @@ export const useOnboardClientFormSectionFourStore = defineStore(
           "Often",
           "Always",
         ],
+
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const get_step_four_how_often_do_you_build_relatn_with_clients_beyond_transactnal_interactn =
@@ -150,38 +195,29 @@ export const useOnboardClientFormSectionFourStore = defineStore(
       };
 
     const get_answers_for_submission = computed(() => {
-      return [
-        {
-          question:
-            step_four_how_often_do_you_build_relatn_with_clients_beyond_transactnal_interactn.question_label,
-          answer:
-            step_four_how_often_do_you_build_relatn_with_clients_beyond_transactnal_interactn.question_answer,
-        },
-        {
-          question:
-            step_four_how_well_do_you_maintain_long_term_relationships_with_clients.question_label,
-          answer:
-            step_four_how_well_do_you_maintain_long_term_relationships_with_clients.question_answer,
-        },
-        {
-          question:
-            step_four_how_often_do_you_engage_with_potential_recruits.question_label,
-          answer:
-            step_four_how_often_do_you_engage_with_potential_recruits.question_answer,
-        },
-        {
-          question:
-            step_four_how_comfortable_are_you_in_initiating_conversatn.question_label,
-          answer:
-            step_four_how_comfortable_are_you_in_initiating_conversatn.question_answer,
-        },
-        {
-          question:
-            step_four_how_frequent_do_you_folloup_after_initial_interactn.question_label,
-          answer:
-            step_four_how_frequent_do_you_folloup_after_initial_interactn.question_answer,
-        },
+      const questions = [
+        step_four_how_often_do_you_build_relatn_with_clients_beyond_transactnal_interactn,
+        step_four_how_well_do_you_maintain_long_term_relationships_with_clients,
+        step_four_how_often_do_you_engage_with_potential_recruits,
+        step_four_how_comfortable_are_you_in_initiating_conversatn,
+        step_four_how_frequent_do_you_folloup_after_initial_interactn,
       ];
+
+      const processed_output = [];
+
+      for (let index = 0; index < questions.length; index++) {
+        const element = questions[index];
+
+        processed_output.push({
+          question: element.question_label,
+          options: element.mapped_question_options,
+          answer: element.question_answer,
+          for_ai_multiple_choice_analysis:
+            element.for_ai_multiple_choice_analysis,
+        });
+      }
+
+      return processed_output;
     });
 
     return {

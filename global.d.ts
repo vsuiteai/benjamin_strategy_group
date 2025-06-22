@@ -1,4 +1,4 @@
-import type { Timestamp } from "firebase-admin/firestore";
+import type { type Timestamp } from "firebase-admin/firestore";
 
 declare global {
   type fileType = "csv" | "pdf" | "xlsx" | "word";
@@ -56,6 +56,14 @@ declare global {
   type question_answer = {
     question: string;
     answer: string;
+    for_ai_multiple_choice_analysis?: boolean;
+    options?: {
+      e: string;
+      d: string;
+      c: string;
+      b: string;
+      a: string;
+    };
   };
 
   type file_to_be_uploaded = File | null;

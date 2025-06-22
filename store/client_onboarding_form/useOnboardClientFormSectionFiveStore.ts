@@ -16,6 +16,14 @@ export const useOnboardClientFormSectionFiveStore = defineStore(
           "I bounce back quickly",
           "I view setbacks as opportunities to grow",
         ],
+        mapped_question_options: {
+          e: "I get overwhelmed and disengage",
+          d: "I struggle but eventually recover",
+          c: "I reflect and learn slowly",
+          b: "I bounce back quickly",
+          a: "I view setbacks as opportunities to grow",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_five_rate_your_ability_to_stay_motivated_during_business_challenges =
@@ -31,6 +39,15 @@ export const useOnboardClientFormSectionFiveStore = defineStore(
           "Highly motivated",
           "Exceptionally motivated",
         ],
+
+        mapped_question_options: {
+          e: "Not motivated at all",
+          d: "Slightly motivated",
+          c: "Moderately motivated",
+          b: "Highly motivated",
+          a: "Exceptionally motivated",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_five_how_do_you_adapt_your_strategies_after_facing_obstacles =
@@ -46,6 +63,15 @@ export const useOnboardClientFormSectionFiveStore = defineStore(
           "Often",
           "Always",
         ],
+
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_five_how_do_you_manage_stress_in_your_biz = reactive({
@@ -55,12 +81,20 @@ export const useOnboardClientFormSectionFiveStore = defineStore(
       question_answer: "",
       question_options: [
         "I avoid dealing with it",
-        "Poorly",
-        "with frequent breakdowns",
+        "Poorly, with frequent breakdowns",
         "With difficulty but stay functional",
         "Proactively with effective tools",
         "Exceptionally with confidence and calm",
       ],
+
+      mapped_question_options: {
+        e: "I avoid dealing with it",
+        d: "Poorly, with frequent breakdowns",
+        c: "With difficulty but stay functional",
+        b: "Proactively with effective tools",
+        a: "Exceptionally with confidence and calm",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_five_how_often_do_you_feel_confident_to_overcome_biz_challenges =
@@ -76,6 +110,15 @@ export const useOnboardClientFormSectionFiveStore = defineStore(
           "Often",
           "Always",
         ],
+
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const get_step_five_how_do_you_respond_to_significant_setbacks_in_your_biz =
@@ -152,38 +195,29 @@ export const useOnboardClientFormSectionFiveStore = defineStore(
       };
 
     const get_answers_for_submission = computed(() => {
-      return [
-        {
-          question:
-            step_five_how_do_you_respond_to_significant_setbacks_in_your_biz.question_label,
-          answer:
-            step_five_how_do_you_respond_to_significant_setbacks_in_your_biz.question_answer,
-        },
-        {
-          question:
-            step_five_rate_your_ability_to_stay_motivated_during_business_challenges.question_label,
-          answer:
-            step_five_rate_your_ability_to_stay_motivated_during_business_challenges.question_answer,
-        },
-        {
-          question:
-            step_five_how_do_you_adapt_your_strategies_after_facing_obstacles.question_label,
-          answer:
-            step_five_how_do_you_adapt_your_strategies_after_facing_obstacles.question_answer,
-        },
-        {
-          question:
-            step_five_how_do_you_manage_stress_in_your_biz.question_label,
-          answer:
-            step_five_how_do_you_manage_stress_in_your_biz.question_answer,
-        },
-        {
-          question:
-            step_five_how_often_do_you_feel_confident_to_overcome_biz_challenges.question_label,
-          answer:
-            step_five_how_often_do_you_feel_confident_to_overcome_biz_challenges.question_answer,
-        },
+      const questions = [
+        step_five_how_do_you_respond_to_significant_setbacks_in_your_biz,
+        step_five_rate_your_ability_to_stay_motivated_during_business_challenges,
+        step_five_how_do_you_adapt_your_strategies_after_facing_obstacles,
+        step_five_how_do_you_manage_stress_in_your_biz,
+        step_five_how_often_do_you_feel_confident_to_overcome_biz_challenges,
       ];
+
+      const processed_output = [];
+
+      for (let index = 0; index < questions.length; index++) {
+        const element = questions[index];
+
+        processed_output.push({
+          question: element.question_label,
+          options: element.mapped_question_options,
+          answer: element.question_answer,
+          for_ai_multiple_choice_analysis:
+            element.for_ai_multiple_choice_analysis,
+        });
+      }
+
+      return processed_output;
     });
 
     return {

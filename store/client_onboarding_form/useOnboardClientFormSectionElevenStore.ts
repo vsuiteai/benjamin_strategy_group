@@ -15,6 +15,15 @@ export const useOnboardClientFormSectionElevenStore = defineStore(
         "Yes, frequently to support ongoing operations and growth",
         "Yes, as a core part of my business strategy",
       ],
+
+      mapped_question_options: {
+        e: "No, I have never used outside capital",
+        d: "Yes, but only in the early stages of the business",
+        c: "Yes, occasionally for specific projects",
+        b: "Yes, frequently to support ongoing operations and growth",
+        a: "Yes, as a core part of my business strategy",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_eleven_how_confident_are_you_in_understanding_outside_funding =
@@ -30,6 +39,14 @@ export const useOnboardClientFormSectionElevenStore = defineStore(
           "Confident",
           "Very confident",
         ],
+        mapped_question_options: {
+          e: "Not confident",
+          d: "Slightly confident",
+          c: "Neutral",
+          b: "Confident",
+          a: "Very confident",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_eleven_how_effectively_do_you_use_outside_capital = reactive({
@@ -44,6 +61,15 @@ export const useOnboardClientFormSectionElevenStore = defineStore(
         "Well",
         "Exceptionally well",
       ],
+
+      mapped_question_options: {
+        e: "Not effectively",
+        d: "Poorly",
+        c: "Adequately",
+        b: "Well",
+        a: "Exceptionally well",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_eleven_how_frequently_do_you_evaluate_the_ROI_of_outside_capital =
@@ -59,6 +85,15 @@ export const useOnboardClientFormSectionElevenStore = defineStore(
           "Often",
           "Always",
         ],
+
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_eleven_how_prepared_are_you_to_present_your_business = reactive({
@@ -73,6 +108,15 @@ export const useOnboardClientFormSectionElevenStore = defineStore(
         "Well prepared",
         "Very well prepared",
       ],
+
+      mapped_question_options: {
+        e: "Not prepared at all",
+        d: "Slightly prepared",
+        c: "Neutral",
+        b: "Well prepared",
+        a: "Very well prepared",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const get_step_eleven_have_you_used_outside_capital = computed(() => {
@@ -152,40 +196,29 @@ export const useOnboardClientFormSectionElevenStore = defineStore(
     };
 
     const get_answers_for_submission = computed(() => {
-      return [
-        {
-          question: step_eleven_have_you_used_outside_capital.question_label,
-          answer: step_eleven_have_you_used_outside_capital.question_answer,
-        },
-
-        {
-          question:
-            step_eleven_how_confident_are_you_in_understanding_outside_funding.question_label,
-          answer:
-            step_eleven_how_confident_are_you_in_understanding_outside_funding.question_answer,
-        },
-
-        {
-          question:
-            step_eleven_how_effectively_do_you_use_outside_capital.question_label,
-          answer:
-            step_eleven_how_effectively_do_you_use_outside_capital.question_answer,
-        },
-
-        {
-          question:
-            step_eleven_how_frequently_do_you_evaluate_the_ROI_of_outside_capital.question_label,
-          answer:
-            step_eleven_how_frequently_do_you_evaluate_the_ROI_of_outside_capital.question_answer,
-        },
-
-        {
-          question:
-            step_eleven_how_prepared_are_you_to_present_your_business.question_label,
-          answer:
-            step_eleven_how_prepared_are_you_to_present_your_business.question_answer,
-        },
+      const questions = [
+        step_eleven_have_you_used_outside_capital,
+        step_eleven_how_confident_are_you_in_understanding_outside_funding,
+        step_eleven_how_effectively_do_you_use_outside_capital,
+        step_eleven_how_frequently_do_you_evaluate_the_ROI_of_outside_capital,
+        step_eleven_how_prepared_are_you_to_present_your_business,
       ];
+
+      const processed_output = [];
+
+      for (let index = 0; index < questions.length; index++) {
+        const element = questions[index];
+
+        processed_output.push({
+          question: element.question_label,
+          options: element.mapped_question_options,
+          answer: element.question_answer,
+          for_ai_multiple_choice_analysis:
+            element.for_ai_multiple_choice_analysis,
+        });
+      }
+
+      return processed_output;
     });
 
     return {

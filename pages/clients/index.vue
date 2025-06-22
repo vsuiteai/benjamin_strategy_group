@@ -256,8 +256,6 @@ onMounted(async () => {
             <span class="text-gray-900 dark:text-white">{{
               pagination?.showing
             }}</span>
-
-            >
           </span>
           <ul v-if="false" class="inline-flex items-stretch -space-x-px">
             <li>

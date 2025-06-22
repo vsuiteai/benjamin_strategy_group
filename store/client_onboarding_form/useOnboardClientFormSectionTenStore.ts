@@ -16,6 +16,14 @@ export const useOnboardClientFormSectionTenStore = defineStore(
           "Confident",
           "Very confident",
         ],
+        mapped_question_options: {
+          e: "Not confident",
+          d: "Slightly confident",
+          c: "Neutral",
+          b: "Confident",
+          a: "Very confident",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_ten_how_often_do_you_provide_constructive_feedback_to_your_team =
@@ -31,6 +39,15 @@ export const useOnboardClientFormSectionTenStore = defineStore(
           "Often",
           "Always",
         ],
+
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_ten_how_effectively_do_you_delegate_tasks = reactive({
@@ -45,6 +62,14 @@ export const useOnboardClientFormSectionTenStore = defineStore(
         "Well",
         "Exceptionally well",
       ],
+      mapped_question_options: {
+        e: "Not effectively",
+        d: "Poorly",
+        c: "Adequately",
+        b: "Well",
+        a: "Exceptionally well",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_ten_how_frequently_do_you_invest_time_in_developing = reactive({
@@ -53,6 +78,14 @@ export const useOnboardClientFormSectionTenStore = defineStore(
         "How frequently do you invest time in developing the leadership skills of your team members?",
       question_answer: "",
       question_options: ["Never", "Rarely", "Occasionally", "Often", "Always"],
+      mapped_question_options: {
+        e: "Never",
+        d: "Rarely",
+        c: "Occasionally",
+        b: "Often",
+        a: "Always",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_ten_how_do_you_handle_decision_making = reactive({
@@ -67,6 +100,14 @@ export const useOnboardClientFormSectionTenStore = defineStore(
         "Make decisions confidently",
         "Make decisions decisively with consideration of long-term impact",
       ],
+      mapped_question_options: {
+        e: "Avoid making decisions",
+        d: "Struggle but eventually decide",
+        c: "Make decisions with some hesitation",
+        b: "Make decisions confidently",
+        a: "Make decisions decisively with consideration of long-term impact",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const get_step_ten_how_confident_are_you_in_setting_a_clear_direction =
@@ -143,36 +184,29 @@ export const useOnboardClientFormSectionTenStore = defineStore(
     };
 
     const get_answers_for_submission = computed(() => {
-      return [
-        {
-          question:
-            step_ten_how_confident_are_you_in_setting_a_clear_direction.question_label,
-          answer:
-            step_ten_how_confident_are_you_in_setting_a_clear_direction.question_answer,
-        },
-        {
-          question:
-            step_ten_how_often_do_you_provide_constructive_feedback_to_your_team.question_label,
-          answer:
-            step_ten_how_often_do_you_provide_constructive_feedback_to_your_team.question_answer,
-        },
-        {
-          question:
-            step_ten_how_effectively_do_you_delegate_tasks.question_label,
-          answer:
-            step_ten_how_effectively_do_you_delegate_tasks.question_answer,
-        },
-        {
-          question:
-            step_ten_how_frequently_do_you_invest_time_in_developing.question_label,
-          answer:
-            step_ten_how_frequently_do_you_invest_time_in_developing.question_answer,
-        },
-        {
-          question: step_ten_how_do_you_handle_decision_making.question_label,
-          answer: step_ten_how_do_you_handle_decision_making.question_answer,
-        },
+      const questions = [
+        step_ten_how_confident_are_you_in_setting_a_clear_direction,
+        step_ten_how_often_do_you_provide_constructive_feedback_to_your_team,
+        step_ten_how_effectively_do_you_delegate_tasks,
+        step_ten_how_frequently_do_you_invest_time_in_developing,
+        step_ten_how_do_you_handle_decision_making,
       ];
+
+      const processed_output = [];
+
+      for (let index = 0; index < questions.length; index++) {
+        const element = questions[index];
+
+        processed_output.push({
+          question: element.question_label,
+          options: element.mapped_question_options,
+          answer: element.question_answer,
+          for_ai_multiple_choice_analysis:
+            element.for_ai_multiple_choice_analysis,
+        });
+      }
+
+      return processed_output;
     });
 
     return {

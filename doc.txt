@@ -4,3 +4,36 @@ gcloud run deploy nuxt3-app \
   --platform managed \
   --allow-unauthenticated \
   --port 3000
+
+  gcloud run deploy ben-group-public-nuxt3-app \
+  --source . \
+  --region us-central1 \
+  --platform managed \
+  --allow-unauthenticated \
+  --port 3000
+
+
+Creating an API on API Gateway.
+gcloud api-gateway apis create benjamin-strategy-group-nuxt3-app-api-gateway-api --project=shining-sol-453718-d6
+
+Get details of Created API Gateway
+gcloud api-gateway apis describe benjamin-strategy-group-nuxt3-app-api-gateway-api --project=shining-sol-453718-d6
+
+
+Creating an API config
+gcloud api-gateway api-configs create benjamin-strategy-group-nuxt3-app-api-gateway-api \
+  --api=benjamin-strategy-group-nuxt3-app-api-gateway-api --openapi-spec=api-config.yml \
+  --project=shining-sol-453718-d6 --backend-auth-service-account=analyzer-sa@shining-sol-453718-d6.iam.gserviceaccount.com
+
+Get details of Created API Config
+gcloud api-gateway api-configs describe benjamin-strategy-group-nuxt3-app-api-gateway-api \
+  --api=benjamin-strategy-group-nuxt3-app-api-gateway-api --project=shining-sol-453718-d6
+
+Deploy the API config on a gateway
+gcloud api-gateway gateways create benjamin-strategy-group-nuxt3-app-api-gtwy3 \
+  --api=benjamin-strategy-group-nuxt3-app-api-gateway-api --api-config=benjamin-strategy-group-nuxt3-app-api-gateway-api-three \
+  --location=us-central1 --project=shining-sol-453718-d6
+
+Describe deployed the API config on a gateway
+gcloud api-gateway gateways describe benjamin-strategy-group-nuxt3-app-api-gateway-id \
+  --location=us-central1 --project=shining-sol-453718-d6

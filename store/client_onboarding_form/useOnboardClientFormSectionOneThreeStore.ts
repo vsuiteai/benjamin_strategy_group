@@ -15,6 +15,14 @@ export const useOnboardClientFormSectionOneThreeStore = defineStore(
         "Well",
         "Exceptionally well",
       ],
+      mapped_question_options: {
+        e: "Not well",
+        d: "Poorly",
+        c: "Adequately",
+        b: "Well",
+        a: "Exceptionally well",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_one_three_how_often_do_you_experiment_in_your_biz = reactive({
@@ -23,6 +31,14 @@ export const useOnboardClientFormSectionOneThreeStore = defineStore(
         "How often do you experiment with new approaches, products, or services to drive innovation in your business?",
       question_answer: "",
       question_options: ["Never", "Rarely", "Occasionally", "Often", "Always"],
+      mapped_question_options: {
+        e: "Never",
+        d: "Rarely",
+        c: "Occasionally",
+        b: "Often",
+        a: "Always",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const step_one_three_how_confident_are_you_in_your_understanding_of_your_target_market =
@@ -38,6 +54,14 @@ export const useOnboardClientFormSectionOneThreeStore = defineStore(
           "Confident",
           "Very confident",
         ],
+        mapped_question_options: {
+          e: "Not confident",
+          d: "Slightly confident",
+          c: "Neutral",
+          b: "Confident",
+          a: "Very confident",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_one_three_how_often_do_you_analyze_your_competitors_strategies =
@@ -53,6 +77,14 @@ export const useOnboardClientFormSectionOneThreeStore = defineStore(
           "Often",
           "Always",
         ],
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_one_three_how_effectively_do_you_stay_updated_on_industry_trends =
@@ -68,6 +100,14 @@ export const useOnboardClientFormSectionOneThreeStore = defineStore(
           "Well",
           "Exceptionally well",
         ],
+        mapped_question_options: {
+          e: "Not effectively",
+          d: "Poorly",
+          c: "Adequately",
+          b: "Well",
+          a: "Exceptionally well",
+        },
+        for_ai_multiple_choice_analysis: true,
       });
 
     const step_one_three_how_frequently_do_you_use_customer_feedback = reactive(
@@ -83,6 +123,14 @@ export const useOnboardClientFormSectionOneThreeStore = defineStore(
           "Often",
           "Always",
         ],
+        mapped_question_options: {
+          e: "Never",
+          d: "Rarely",
+          c: "Occasionally",
+          b: "Often",
+          a: "Always",
+        },
+        for_ai_multiple_choice_analysis: true,
       }
     );
 
@@ -98,6 +146,14 @@ export const useOnboardClientFormSectionOneThreeStore = defineStore(
         "Well",
         "Exceptionally well",
       ],
+      mapped_question_options: {
+        e: "Not well",
+        d: "Poorly",
+        c: "Adequately",
+        b: "Well",
+        a: "Exceptionally well",
+      },
+      for_ai_multiple_choice_analysis: true,
     });
 
     const get_step_one_three_how_well_do_you_leverage_industry_trends =
@@ -209,51 +265,31 @@ export const useOnboardClientFormSectionOneThreeStore = defineStore(
     };
 
     const get_answers_for_submission = computed(() => {
-      return [
-        {
-          question:
-            step_one_three_how_well_do_you_leverage_industry_trends.question_label,
-          answer:
-            step_one_three_how_well_do_you_leverage_industry_trends.question_answer,
-        },
-        {
-          question:
-            step_one_three_how_often_do_you_experiment_in_your_biz.question_label,
-          answer:
-            step_one_three_how_often_do_you_experiment_in_your_biz.question_answer,
-        },
-        {
-          question:
-            step_one_three_how_confident_are_you_in_your_understanding_of_your_target_market.question_label,
-          answer:
-            step_one_three_how_confident_are_you_in_your_understanding_of_your_target_market.question_answer,
-        },
-        {
-          question:
-            step_one_three_how_often_do_you_analyze_your_competitors_strategies.question_label,
-          answer:
-            step_one_three_how_often_do_you_analyze_your_competitors_strategies.question_answer,
-        },
-        {
-          question:
-            step_one_three_how_effectively_do_you_stay_updated_on_industry_trends.question_label,
-          answer:
-            step_one_three_how_effectively_do_you_stay_updated_on_industry_trends.question_answer,
-        },
-        {
-          question:
-            step_one_three_how_frequently_do_you_use_customer_feedback.question_label,
-          answer:
-            step_one_three_how_frequently_do_you_use_customer_feedback.question_answer,
-        },
-
-        {
-          question:
-            step_one_three_how_well_do_you_identify_new_opportunities.question_label,
-          answer:
-            step_one_three_how_well_do_you_identify_new_opportunities.question_answer,
-        },
+      const questions = [
+        step_one_three_how_well_do_you_leverage_industry_trends,
+        step_one_three_how_often_do_you_experiment_in_your_biz,
+        step_one_three_how_confident_are_you_in_your_understanding_of_your_target_market,
+        step_one_three_how_often_do_you_analyze_your_competitors_strategies,
+        step_one_three_how_effectively_do_you_stay_updated_on_industry_trends,
+        step_one_three_how_frequently_do_you_use_customer_feedback,
+        step_one_three_how_well_do_you_identify_new_opportunities,
       ];
+
+      const processed_output = [];
+
+      for (let index = 0; index < questions.length; index++) {
+        const element = questions[index];
+
+        processed_output.push({
+          question: element.question_label,
+          options: element.mapped_question_options,
+          answer: element.question_answer,
+          for_ai_multiple_choice_analysis:
+            element.for_ai_multiple_choice_analysis,
+        });
+      }
+
+      return processed_output;
     });
 
     return {
